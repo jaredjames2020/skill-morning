@@ -11,18 +11,31 @@ from adapt.intent import IntentBuilder
 from mycroft.skills.core import MycroftSkill, intent_handler
 from mycroft.util.log import LOG
 
+__author__ = 'jaredjames'
+
+LOGGER = getLogger(__name__)
+
 # Each skill is contained within its own class, which inherits base methods
 # from the MycroftSkill class.  You extend this class as shown below.
 
 # TODO: Change "Template" to a unique name for your skill
-class TemplateSkill(MycroftSkill):
+class MorningSkill(MycroftSkill):
 
     # The constructor of the skill, which calls MycroftSkill's constructor
     def __init__(self):
-        super(TemplateSkill, self).__init__(name="TemplateSkill")
-        
+        super(MorningSkill, self).__init__(name="MorningSkill")
+
         # Initialize working variables used within the skill.
-        self.count = 0
+        # self.count = 0
+
+    def initialize(self):
+        good_morning_intent = IntentBuilder("GoodMorningIntent").
+            require("Good_Morning.voc").build()
+        self.register_intent(good_morning_intent,
+            self.handle_good_morning_intent)
+
+    def handle_good_morning_intent(self, message):
+        self.speak_dialog("good_morning.dialog")
 
     # The "handle_xxxx_intent" function is triggered by Mycroft when the
     # skill's intent is matched.  The intent is defined by the IntentBuilder()
@@ -35,20 +48,20 @@ class TemplateSkill(MycroftSkill):
     #   'Hello world'
     #   'Howdy you great big world'
     #   'Greetings planet earth'
-    @intent_handler(IntentBuilder("").require("Hello").require("World"))
-    def handle_hello_world_intent(self, message):
+    # @intent_handler(IntentBuilder("").require("Hello").require("World"))
+    #def handle_hello_world_intent(self, message):
         # In this case, respond by simply speaking a canned response.
         # Mycroft will randomly speak one of the lines from the file
         #    dialogs/en-us/hello.world.dialog
-        self.speak_dialog("hello.world")
+    #    self.speak_dialog("hello.world")
 
-    @intent_handler(IntentBuilder("").require("Count").require("Dir"))
-    def handle_count_intent(self, message):
-        if message.data["Dir"] == "up":
-            self.count += 1
-        else:  # assume "down"
-            self.count -= 1
-        self.speak_dialog("count.is.now", data={"count": self.count})
+    # @intent_handler(IntentBuilder("").require("Count").require("Dir"))
+    #def handle_count_intent(self, message):
+    #    if message.data["Dir"] == "up":
+    #        self.count += 1
+    #    else:  # assume "down"
+    #        self.count -= 1
+    #    self.speak_dialog("count.is.now", data={"count": self.count})
 
     # The "stop" method defines what Mycroft does when told to stop during
     # the skill's execution. In this case, since the skill's functionality
