@@ -29,13 +29,12 @@ class MorningSkill(MycroftSkill):
         # self.count = 0
 
     def initialize(self):
-        good_morning_intent = IntentBuilder("GoodMorningIntent").
-            require("Good_Morning.voc").build()
+        good_morning_intent = IntentBuilder("GoodMorningIntent").require("Good_Morning").build()
         self.register_intent(good_morning_intent,
             self.handle_good_morning_intent)
 
     def handle_good_morning_intent(self, message):
-        self.speak_dialog("good_morning.dialog")
+        self.speak_dialog("good_morning")
 
     # The "handle_xxxx_intent" function is triggered by Mycroft when the
     # skill's intent is matched.  The intent is defined by the IntentBuilder()
